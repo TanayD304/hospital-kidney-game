@@ -3,6 +3,8 @@ const app = express()
 
 app.use(express.json())
 
+// TODO: Add Functionality for multiple users rightnow its for single user right now
+// TODO: Add functionality for database(remove in memory operations)
 let user1 = {
   fname: "Tanay",
   lname: "Dubey",
@@ -26,15 +28,18 @@ app.get('/patient-info', (req, res) => {
 
 app.get('/kidney-info', (req, res) => {
     const patientName = user1.fname + " " + user1.lname
-    let healthyKidneys = 0;
+    let Kidneys = user1.kidneys.length;
+    let healthy = 0;
     for(let i=0;i<user1.kidneys.length;i++) {
-        if(user1.kidneys[i].isHealthy) healthyKidneys++;
+        if(user1.kidneys[i].isHealthy) healthy++;
     }
+    let unHealthy = Kidneys-healthy
     res.json({
         patientName:patientName,
-        healthyKidneys:healthyKidneys
+        totalKidney:Kidneys,
+        healthyKidneys:healthy,
+        unhealthyKidneys:unHealthy
     })
-
 })
 
 app.post('/add-new-kidney', (req, res) => {
